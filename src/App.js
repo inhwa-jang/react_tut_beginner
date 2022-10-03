@@ -2,51 +2,40 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [coins, setCoins] = useState([]); //초기값을 빈 배열로 줘서 undefiend되지 않게 처리
+  const [movies, setMovies] = useState([]); // undefined가 뜨지 않게 해주기 위해 빈 배열로 초기값을 설정
+  const getMovies = async () => {
+    const response = await fetch(
+      "https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year"
+    );
+    const json = await response.json();
+    setMovies(json.data.movies);
+    setLoading(false);
+  };
   useEffect(() => {
-    fetch("https://api.coinpaprika.com/v1/tickers?limit=20")
-      .then((response) => response.json())
-      .then((json) => {
-        setCoins(json);
-        setLoading(false);
-      });
-  }, []); //useEffect 두번째 인자에 []빈 배열을 넣으면 한 번만 실행됨
-
-  //money
-  const [money, setMoney] = useState(0);
-  const onChange = (e) => {
-    setMoney(e.target.value);
-  };
-  //coinValue
-  const [coinValue, setCoinValue] = useState(0);
-  const changeCoin = (e) => {
-    setCoinValue(e.target.value);
-    console.log(e.target.value);
-  };
+    getMovies();
+  }, []);
+  console.log(movies);
 
   return (
     <div>
-      <h1>The Coins! ({coins.length})</h1>
-      {loading ? <strong>Loading...</strong> : null}
-      <form>
-        <label htmlFor="money">How much do you have? $</label>
-        <input
-          type="number"
-          placeholder="Input your money"
-          id="money"
-          value={money}
-          onChange={onChange}
-        ></input>
-      </form>
-
-      <select onChange={changeCoin}>
-        {coins.map((coin, index) => (
-          <option key={index} value={coin.quotes.USD.price}>
-            {coin.name} ({coin.symbol}): ${coin.quotes.USD.price} USD
-          </option>
-        ))}
-      </select>
-      <h3>You can buy {Math.floor(money / coinValue)}</h3>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          {movies.map((movie) => (
+            <div key={movie.id}>
+              <img src={movie.medium_cover_image} />
+              <h2>{movie.title}</h2>
+              <p>{movie.summary}</p>
+              <ul>
+                {movie.genres.map((g) => (
+                  <li key={g}>{g}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
