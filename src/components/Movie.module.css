@@ -34,9 +34,16 @@
   .movie__title,
   .movie__year {
     margin: 0;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     font-weight: 700;
     text-decoration: none;
+  }
+  .movie__year {
+    color: grey;
+  }
+
+  .movie__title a:hover {
+    text-decoration: underline;
   }
   
   .movie__title a {
@@ -44,6 +51,7 @@
     font-size: 24px;
     color: #2c2c2c;
     text-decoration: none;
+    color: rgb(104, 144, 190);
   }
   
   .movie__genres {
@@ -53,7 +61,8 @@
     display: flex;
     flex-wrap: wrap;
     margin: 5px 0px;
-    color: #606060;
+    color: rgb(139, 185, 238);
+    font-weight: 700;
   }
   
   .movie__genres li,
