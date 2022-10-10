@@ -14,9 +14,7 @@ const MovieDetail = ({ coverImg, title, longTitle, summary, rating }) => {
         </div>
         <img src={coverImg} alt={title} />
         <h1 className={styles.movie__title}>{longTitle}</h1>
-        <p className={styles.movie__summary}>
-          {summary.length > 235 ? `${summary.slice(0, 235)}...` : summary}
-        </p>
+        <p className={styles.movie__summary}>{summary}</p>
         <h3 className={styles.movie__rating}>Rating : {rating} / 10</h3>
       </div>
     </div>
